@@ -23,6 +23,7 @@ class bepusdt_plugin
             'usdt.bep20',
             'usdc.bep20',
             'usdt.xlayer',
+            'usdt0.xlayer',
             'usdc.xlayer',
             'usdc.base',
             'usdt.solana',
@@ -182,4 +183,5 @@ class bepusdt_plugin
 
         return json_decode($resp, true);
     }
+
 }
