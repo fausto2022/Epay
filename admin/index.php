@@ -12,80 +12,122 @@ if($conf['admin_pwd']==='123456'){
 }
 ?>
 <div class="container" style="padding-top:70px;">
-<div class="col-xs-12 col-lg-9 center-block" style="float: none;">
-<div id="browser-notice"></div>
+  <div class="col-xs-12 center-block dashboard-page" style="float: none;">
+    <div id="browser-notice"></div>
 
-<div class="row">
-    <div class="col-xs-12 col-lg-8">
-      <div class="panel panel-info">
-        <div class="panel-heading"><h3 class="panel-title" id="title">后台管理首页</h3></div>
-          <ul class="list-group">
-			<?php if($msg){foreach($msg as $x){echo $x;}}?>
-            <li class="list-group-item"><span class="glyphicon glyphicon-stats"></span> <b>订单总数：</b><a id="count1" href="./order.php"></a></li>
-			<li class="list-group-item"><span class="glyphicon glyphicon-tint"></span> <b>商户数量：</b><a id="count2" href="./ulist.php"></a></li>
-			<li class="list-group-item"><span class="glyphicon glyphicon-tint"></span> <b>总计余额：</b><span id="usermoney"></span> 元（1小时更新一次）</li>
-			<li class="list-group-item"><span class="glyphicon glyphicon-tint"></span> <b>结算总额：</b><span id="settlemoney"></span> 元（1小时更新一次）</li>
-			<li class="list-group-item"><span class="glyphicon glyphicon-stats"></span> <b>今日订单成功率：</b><span id="success_rate"></span> %</li>
-            <li class="list-group-item"><span class="glyphicon glyphicon-time"></span> <b>现在时间：</b> <?=$date?></li>
-			</li>
-          </ul>
+    <?php if(!empty($msg)){?>
+    <div class="dashboard-alerts">
+      <ul class="list-group"><?php foreach($msg as $x){echo $x;}?></ul>
+    </div>
+    <?php }?>
+
+    <div class="dashboard-heading">
+      <div>
+        <h1>运营概览</h1>
+        <p>关键数据每小时缓存更新，刷新可立即获取最新统计。</p>
       </div>
-	</div>
-	<div class="col-xs-12 col-lg-4">
-      <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title" id="title">管理员信息</h3></div>
-          <ul class="list-group text-center">
-            <li class="list-group-item">
-			<img src="<?php echo ($conf['kfqq'])?'//q2.qlogo.cn/headimg_dl?bs=qq&dst_uin='.$conf['kfqq'].'&src_uin='.$conf['kfqq'].'&fid='.$conf['kfqq'].'&spec=100&url_enc=0&referer=bu_interface&term_type=PC':'../assets/img/user.png'?>" alt="avatar" class="img-circle img-thumbnail"></br>
-			<span class="text-muted"><strong>用户名：</strong><font color="blue"><?php echo $conf['admin_user']?></font></span><br/><span class="text-muted"><strong>用户权限：</strong><font color="orange">管理员</font></span></li>
-			<li class="list-group-item"><a href="../" class="btn btn-xs btn-default">返回首页</a>&nbsp;<a href="./set.php?mod=account" class="btn btn-xs btn-info">修改密码</a>&nbsp;<a href="./login.php?logout" class="btn btn-xs btn-danger">退出登录</a>
-			</li>
-          </ul>
+      <button type="button" class="btn btn-default dashboard-refresh" onclick="getData(true)" title="刷新统计">
+        <i class="fa fa-refresh"></i><span>刷新数据</span>
+      </button>
+    </div>
+
+    <div class="dashboard-metrics" aria-label="关键运营指标">
+      <a class="dashboard-metric" href="./order.php">
+        <span class="dashboard-metric-icon metric-teal"><i class="fa fa-file-text-o"></i></span>
+        <span class="dashboard-metric-content"><small>订单总数</small><strong id="count1">--</strong><em>查看全部订单</em></span>
+      </a>
+      <a class="dashboard-metric" href="./ulist.php">
+        <span class="dashboard-metric-icon metric-blue"><i class="fa fa-users"></i></span>
+        <span class="dashboard-metric-content"><small>商户数量</small><strong id="count2">--</strong><em>查看商户列表</em></span>
+      </a>
+      <div class="dashboard-metric">
+        <span class="dashboard-metric-icon metric-green"><i class="fa fa-database"></i></span>
+        <span class="dashboard-metric-content"><small>商户总余额</small><strong><span id="usermoney">--</span><b>元</b></strong><em>缓存统计</em></span>
       </div>
-	</div>
-</div>
-	  <div class="panel panel-success">
-	    <div class="panel-heading"><h3 class="panel-title">支付方式收入统计（1小时更新一次）<span class="pull-right"><a href="javascript:getData(true)" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></a></span></h3></div>
-          <table class="table table-bordered table-striped">
-		    <thead><tr id="paytype_head"><th>日期</th></thead>
-            <tbody id="paytype_list">
-			</tbody>
-          </table>
+      <div class="dashboard-metric">
+        <span class="dashboard-metric-icon metric-orange"><i class="fa fa-exchange"></i></span>
+        <span class="dashboard-metric-content"><small>结算总额</small><strong><span id="settlemoney">--</span><b>元</b></strong><em>缓存统计</em></span>
       </div>
-	  <div class="panel panel-warning">
-	    <div class="panel-heading"><h3 class="panel-title">支付通道收入统计（1小时更新一次）<span class="pull-right"><a href="javascript:getData(true)" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></a></span></h3></div>
-		<div class="table-responsive">
-          <table class="table table-bordered table-striped">
-		    <thead><tr id="channel_head"><th>日期</th></thead>
-            <tbody id="channel_list">
-			</tbody>
-          </table>
-		</div>
-      </div>
-	  <div class="panel panel-warning">
-	    <div class="panel-heading" style="background-color: #c09853;"><h3 class="panel-title">支付方式手续费利润（已扣除通道成本，1小时更新一次）<span class="pull-right"><a href="javascript:getData(true)" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></a></span></h3></div>
-          <table class="table table-bordered table-striped">
-		    <thead><tr id="profit_paytype_head"><th>日期</th></thead>
-            <tbody id="profit_paytype_list">
-			</tbody>
-          </table>
+      <div class="dashboard-metric">
+        <span class="dashboard-metric-icon metric-red"><i class="fa fa-line-chart"></i></span>
+        <span class="dashboard-metric-content"><small>今日成功率</small><strong><span id="success_rate">--</span><b>%</b></strong><em>实时订单表现</em></span>
       </div>
     </div>
+
+    <div class="dashboard-layout">
+      <section class="dashboard-main">
+        <div class="panel dashboard-panel">
+          <div class="panel-heading">
+            <div><h3 class="panel-title">支付方式收入</h3><small>按支付方式汇总最近交易</small></div>
+            <a href="javascript:getData(true)" class="admin-icon-button" title="刷新"><i class="fa fa-refresh"></i></a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover"><thead><tr id="paytype_head"><th>日期</th></tr></thead><tbody id="paytype_list"></tbody></table>
+          </div>
+        </div>
+
+        <div class="panel dashboard-panel">
+          <div class="panel-heading">
+            <div><h3 class="panel-title">支付通道收入</h3><small>用于比较各通道实际贡献</small></div>
+            <a href="javascript:getData(true)" class="admin-icon-button" title="刷新"><i class="fa fa-refresh"></i></a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover"><thead><tr id="channel_head"><th>日期</th></tr></thead><tbody id="channel_list"></tbody></table>
+          </div>
+        </div>
+
+        <div class="panel dashboard-panel">
+          <div class="panel-heading">
+            <div><h3 class="panel-title">手续费利润</h3><small>已扣除通道成本的支付方式利润</small></div>
+            <a href="javascript:getData(true)" class="admin-icon-button" title="刷新"><i class="fa fa-refresh"></i></a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover"><thead><tr id="profit_paytype_head"><th>日期</th></tr></thead><tbody id="profit_paytype_list"></tbody></table>
+          </div>
+        </div>
+      </section>
+
+      <aside class="dashboard-aside">
+        <div class="panel dashboard-quick-panel">
+          <div class="panel-heading"><h3 class="panel-title">快捷操作</h3></div>
+          <div class="dashboard-quick-actions">
+            <a href="./order.php"><i class="fa fa-search"></i><span>查询订单</span></a>
+            <a href="./transfer_add.php"><i class="fa fa-plus"></i><span>新增付款</span></a>
+            <a href="./ulist.php"><i class="fa fa-user-plus"></i><span>商户管理</span></a>
+            <a href="./pay_channel.php"><i class="fa fa-random"></i><span>支付通道</span></a>
+            <a href="./risk.php"><i class="fa fa-shield"></i><span>风控记录</span></a>
+            <a href="./log.php"><i class="fa fa-history"></i><span>登录日志</span></a>
+          </div>
+        </div>
+
+        <div class="panel dashboard-status-panel">
+          <div class="panel-heading"><h3 class="panel-title">系统状态</h3></div>
+          <ul class="dashboard-status-list">
+            <li><span><i class="fa fa-circle status-online"></i>管理账号</span><strong><?php echo $conf['admin_user']?></strong></li>
+            <li><span><i class="fa fa-clock-o"></i>服务器时间</span><strong><?=$date?></strong></li>
+            <li><span><i class="fa fa-code-fork"></i>系统版本</span><strong><?php echo VERSION?></strong></li>
+          </ul>
+          <a class="dashboard-account-link" href="./set.php?mod=account"><i class="fa fa-key"></i> 修改账号与密码</a>
+        </div>
+      </aside>
+    </div>
   </div>
+</div>
 <script>
 $(document).ready(function(){
 	getData();
 });
 function getData(getnew){
 	getnew = getnew || false;
-	$('#title').html('正在加载数据中...');
 	$.ajax({
 		type : "GET",
 		url : "ajax.php?act=getcount"+(getnew?'&getnew=1':''),
 		dataType : 'json',
 		async: true,
+		beforeSend: function() {
+			$('.dashboard-refresh .fa, .dashboard-panel .fa-refresh').addClass('fa-spin');
+		},
 		success : function(data) {
-			$('#title').html('后台管理首页');
 			$('#count1').html(data.count1);
 			$('#count2').html(data.count2);
 			$('#usermoney').html(data.usermoney);
@@ -160,6 +202,16 @@ function getData(getnew){
 				});
 				$("#profit_paytype_list").append('<tr><td>'+k+'</td>'+order+'<td>'+v.profit_all+'</td></tr>');
 			});
+		},
+		error: function() {
+			if (window.layer) {
+				layer.msg('统计数据加载失败，请稍后重试', {icon: 2});
+			} else {
+				window.alert('统计数据加载失败，请稍后重试');
+			}
+		},
+		complete: function() {
+			$('.dashboard-refresh .fa, .dashboard-panel .fa-refresh').removeClass('fa-spin');
 		}
 	});
 }

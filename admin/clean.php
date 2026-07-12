@@ -62,26 +62,30 @@ showmsg('删除分账记录成功！',1);
 <div class="panel panel-primary">
 <div class="panel-heading"><h3 class="panel-title">系统数据清理</h3></div>
 <div class="panel-body">
-<a href="./clean.php?mod=cleancache" class="btn btn-block btn-default">清理设置缓存</a><br/>
-<a href="./clean.php?mod=cleanorder" onclick="return confirm('你确实要删除30天前的订单记录吗？');" class="btn btn-block btn-default">删除30天前订单记录</a><br/>
-<a href="./clean.php?mod=cleansettle" onclick="return confirm('你确实要删除30天前的结算记录吗？');" class="btn btn-block btn-default">删除30天前结算记录</a><br/>
-<a href="./clean.php?mod=cleanrecord" onclick="return confirm('你确实要删除30天前的资金明细吗？');" class="btn btn-block btn-default">删除30天前资金明细</a><br/>
-<h4>自定义清理：</h4>
-<form action="./clean.php?mod=cleanorderi" method="post" role="form"><input type="hidden" name="do" value="submit"/>
-<b>订单记录</b>：<input type="text" name="days" value="" placeholder="天数"/>天前的订单记录&nbsp;<input type="submit" name="submit" value="立即删除" class="btn btn-sm btn-danger" onclick="return confirm('删除后无法恢复，确定继续吗？');"/>
-</form><br/>
-<form action="./clean.php?mod=cleansettlei" method="post" role="form"><input type="hidden" name="do" value="submit"/>
-<b>结算记录</b>：<input type="text" name="days" value="" placeholder="天数"/>天前的结算记录&nbsp;<input type="submit" name="submit" value="立即删除" class="btn btn-sm btn-danger" onclick="return confirm('删除后无法恢复，确定继续吗？');"/>
-</form><br/>
-<form action="./clean.php?mod=cleanrecordi" method="post" role="form"><input type="hidden" name="do" value="submit"/>
-<b>资金明细</b>：<input type="text" name="days" value="" placeholder="天数"/>天前的订单记录&nbsp;<input type="submit" name="submit" value="立即删除" class="btn btn-sm btn-danger" onclick="return confirm('删除后无法恢复，确定继续吗？');"/>
-</form><br/>
-<form action="./clean.php?mod=cleantransferi" method="post" role="form"><input type="hidden" name="do" value="submit"/>
-<b>付款记录</b>：<input type="text" name="days" value="" placeholder="天数"/>天前的付款记录&nbsp;<input type="submit" name="submit" value="立即删除" class="btn btn-sm btn-danger" onclick="return confirm('删除后无法恢复，确定继续吗？');"/>
-</form><br/>
-<form action="./clean.php?mod=cleanpsorderi" method="post" role="form"><input type="hidden" name="do" value="submit"/>
-<b>分账记录</b>：<input type="text" name="days" value="" placeholder="天数"/>天前的分账记录&nbsp;<input type="submit" name="submit" value="立即删除" class="btn btn-sm btn-danger" onclick="return confirm('删除后无法恢复，确定继续吗？');"/>
-</form><br/>
+<div class="clean-action-list">
+  <a href="./clean.php?mod=cleancache" class="btn btn-default"><i class="fa fa-refresh"></i> 清理设置缓存</a>
+  <a href="./clean.php?mod=cleanorder" onclick="return confirm('你确实要删除30天前的订单记录吗？');" class="btn btn-default"><i class="fa fa-trash-o"></i> 删除30天前订单记录</a>
+  <a href="./clean.php?mod=cleansettle" onclick="return confirm('你确实要删除30天前的结算记录吗？');" class="btn btn-default"><i class="fa fa-trash-o"></i> 删除30天前结算记录</a>
+  <a href="./clean.php?mod=cleanrecord" onclick="return confirm('你确实要删除30天前的资金明细吗？');" class="btn btn-default"><i class="fa fa-trash-o"></i> 删除30天前资金明细</a>
+</div>
+<h4>自定义清理</h4>
+<?php
+$clean_items = [
+  ['action'=>'cleanorderi', 'name'=>'订单记录', 'description'=>'天前的订单记录'],
+  ['action'=>'cleansettlei', 'name'=>'结算记录', 'description'=>'天前的结算记录'],
+  ['action'=>'cleanrecordi', 'name'=>'资金明细', 'description'=>'天前的资金明细'],
+  ['action'=>'cleantransferi', 'name'=>'付款记录', 'description'=>'天前的付款记录'],
+  ['action'=>'cleanpsorderi', 'name'=>'分账记录', 'description'=>'天前的分账记录'],
+];
+foreach($clean_items as $item){
+?>
+<form class="clean-custom-row" action="./clean.php?mod=<?php echo $item['action']?>" method="post" role="form">
+  <input type="hidden" name="do" value="submit"/>
+  <label><?php echo $item['name']?></label>
+  <div class="clean-days-input"><input type="number" min="1" name="days" value="" placeholder="天数" required/><span><?php echo $item['description']?></span></div>
+  <button type="submit" name="submit" class="btn btn-sm btn-danger" onclick="return confirm('删除后无法恢复，确定继续吗？');"><i class="fa fa-trash-o"></i> 立即删除</button>
+</form>
+<?php }?>
 </div>
 <div class="panel-footer">
 <span class="glyphicon glyphicon-info-sign"></span>
