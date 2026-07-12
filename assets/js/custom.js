@@ -7,7 +7,12 @@ if (parameter_str !== undefined) {
     var tmp_arr;
     for (var i = 0, len = parameter_arr.length; i <= len - 1; i++) {
         tmp_arr = parameter_arr[i].split('=');
-        $_GET[tmp_arr[0]] = decodeURIComponent(tmp_arr[1]);
+        if (!tmp_arr[0]) continue;
+        try {
+            $_GET[decodeURIComponent(tmp_arr[0])] = decodeURIComponent(tmp_arr.slice(1).join('='));
+        } catch (error) {
+            $_GET[tmp_arr[0]] = tmp_arr.slice(1).join('=');
+        }
     }
     window.$_GET = $_GET;
 } else {

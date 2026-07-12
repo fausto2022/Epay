@@ -7,6 +7,19 @@ if(!checkRefererHost())exit('{"code":403}');
 
 @header('Content-Type: application/json; charset=UTF-8');
 
+function validateReceiverInfo($info){
+	$receivers = json_decode($info, true);
+	if(!is_array($receivers) || count($receivers) === 0) return false;
+	$totalRate = 0;
+	foreach($receivers as $receiver){
+		if(empty($receiver['account']) || !isset($receiver['rate']) || !is_numeric($receiver['rate'])) return false;
+		$rate = (float)$receiver['rate'];
+		if($rate <= 0 || $rate > 100) return false;
+		$totalRate += $rate;
+	}
+	return $totalRate <= 100;
+}
+
 switch($act){
 
 case 'receiverList':
@@ -92,7 +105,7 @@ case 'add_receiver':
 	if(!$data['channel'] || !$data['info'])exit('{"code":-1,"msg":"必填项不能为空"}');
 	if(!empty($data['uid']) && !$DB->find('user', 'uid', ['uid'=>$data['uid']]))exit('{"code":-1,"msg":"商户ID不存在"}');
 	if(!\lib\Channel::get($data['channel']))exit('{"code":-1,"msg":"支付通道不存在"}');
-	if(!strpos($data['rate'], '|') && $data['rate'] > 100) exit('{"code":-1,"msg":"分账比例不能大于100"}');
+	if(!validateReceiverInfo($data['info'])) exit('{"code":-1,"msg":"分账接收人或比例不正确"}');
 	if($data['uid'] > 0 && $data['subchannel'] > 0){
 		$sql = "`uid`='{$data['uid']}' AND `subchannel`='{$data['subchannel']}'";
 	}elseif($data['uid'] > 0){
@@ -123,7 +136,7 @@ case 'edit_receiver':
 	if(!$data['channel'] || !$data['info'])exit('{"code":-1,"msg":"必填项不能为空"}');
 	if(!empty($data['uid']) && !$DB->find('user', 'uid', ['uid'=>$data['uid']]))exit('{"code":-1,"msg":"商户ID不存在"}');
 	if(!\lib\Channel::get($data['channel']))exit('{"code":-1,"msg":"支付通道不存在"}');
-	if(!strpos($data['rate'], '|') && $data['rate'] > 100) exit('{"code":-1,"msg":"分账比例不能大于100"}');
+	if(!validateReceiverInfo($data['info'])) exit('{"code":-1,"msg":"分账接收人或比例不正确"}');
 	if($data['uid'] > 0 && $data['subchannel'] > 0){
 		$sql = "`uid`='{$data['uid']}' AND `subchannel`='{$data['subchannel']}'";
 	}elseif($data['uid'] > 0){

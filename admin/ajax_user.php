@@ -19,7 +19,10 @@ case 'userList':
 	$sql=" 1=1";
 	if(isset($_POST['dstatus']) && !empty($_POST['dstatus'])) {
 		$dstatus = explode('_',$_POST['dstatus']);
-		$sql.=" AND `{$dstatus[0]}`='{$dstatus[1]}'";
+		$statusColumns = ['pay', 'settle', 'status', 'cert'];
+		if(count($dstatus) === 2 && in_array($dstatus[0], $statusColumns, true)) {
+			$sql.=" AND `{$dstatus[0]}`='".intval($dstatus[1])."'";
+		}
 	}
 	if(isset($_POST['gid']) && $_POST['gid']!=='') {
 		$gid = intval($_POST['gid']);
@@ -30,7 +33,10 @@ case 'userList':
 		$sql.=" AND `upid`='$upid'";
 	}
 	if(isset($_POST['value']) && !empty($_POST['value'])) {
-		$sql.=" AND `{$_POST['column']}`='{$_POST['value']}'";
+		$filterColumns = ['uid', 'key', 'account', 'username', 'url', 'qq', 'phone', 'email'];
+		$column = isset($_POST['column']) ? $_POST['column'] : 'uid';
+		if(!in_array($column, $filterColumns, true)) $column = 'uid';
+		$sql.=" AND `{$column}`='".daddslashes($_POST['value'])."'";
 	}
 	if(isset($_POST['order_days']) && !empty($_POST['order_days'])) {
 		$order_days = intval($_POST['order_days']);
@@ -38,7 +44,11 @@ case 'userList':
 	}
 	$order = "uid desc";
 	if(isset($_POST['order']) && !empty($_POST['order'])) {
-		$order=str_replace('_', ' ', $_POST['order']);
+		$orderColumns = ['uid', 'gid', 'addtime', 'endtime', 'lasttime', 'money', 'status'];
+		$orderParts = explode('_', $_POST['order']);
+		$orderColumn = $orderParts[0];
+		$orderDirection = isset($orderParts[1]) && strtolower($orderParts[1]) === 'asc' ? 'asc' : 'desc';
+		if(in_array($orderColumn, $orderColumns, true)) $order = "`{$orderColumn}` {$orderDirection}";
 	}
 	$offset = intval($_POST['offset']);
 	$limit = intval($_POST['limit']);
