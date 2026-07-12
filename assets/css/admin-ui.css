@@ -909,17 +909,37 @@ body.admin-body {
 }
 
 .admin-form-page {
+  width: 100%;
   max-width: 1320px;
 }
 
+.admin-page-glist .admin-form-page,
+.admin-page-group .admin-form-page,
+.admin-page-invitecode .admin-form-page,
+.admin-page-pay_plugin .admin-form-page,
+.admin-page-pay_roll .admin-form-page,
+.admin-page-pay_type .admin-form-page,
+.admin-page-pay_weixin .admin-form-page,
+.admin-page-pay_wework .admin-form-page,
 .admin-page-settle .admin-form-page,
 .admin-page-settle_batch .admin-form-page,
-.admin-page-transfer_add .admin-form-page,
-.admin-page-transfer_batch .admin-form-page,
-.admin-page-transfer_export .admin-form-page,
-.admin-page-transfer_red .admin-form-page {
-  width: 100%;
+.admin-page-transfer_batch .admin-form-page {
   max-width: 1480px !important;
+}
+
+.admin-page-clean .admin-form-page,
+.admin-page-export .admin-form-page,
+.admin-page-record_export .admin-form-page,
+.admin-page-gettoken .admin-form-page,
+.admin-page-gonggao .admin-form-page,
+.admin-page-set_wxkf .admin-form-page,
+.admin-page-transfer_add .admin-form-page,
+.admin-page-transfer_export .admin-form-page,
+.admin-page-transfer_red .admin-form-page,
+.admin-page-gedit .admin-form-page,
+.admin-page-uset .admin-form-page,
+.admin-page-plugin_page .admin-form-page {
+  max-width: 1120px !important;
 }
 
 .admin-form-page .admin-legacy-panel {
@@ -1030,6 +1050,37 @@ body.admin-body {
   margin: 0;
 }
 
+.admin-legacy-table-wrap .table > thead > tr > th {
+  height: 44px;
+  padding: 10px 12px;
+  background: #f7f8fa;
+  color: #4f5965;
+  font-size: 12px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.admin-legacy-table-wrap .table > tbody > tr > td {
+  padding: 10px 12px;
+  border-top-color: #edf0f2;
+  vertical-align: middle;
+}
+
+.admin-legacy-table-wrap .table > tbody > tr:hover {
+  background: #f5f9f9;
+}
+
+.admin-legacy-table-wrap .table > tbody > tr > td:last-child {
+  white-space: nowrap;
+}
+
+.admin-legacy-table-wrap .btn-xs {
+  margin: 2px 1px;
+  padding: 4px 7px;
+  font-size: 11px;
+  line-height: 16px;
+}
+
 .admin-form-page .panel > .admin-legacy-table-wrap {
   border-right: 0;
   border-left: 0;
@@ -1058,6 +1109,15 @@ body.admin-body {
 
 .admin-form-page .form-horizontal .form-group {
   margin-bottom: 16px;
+}
+
+.admin-form-page .panel-body > form:last-child,
+.admin-form-page .panel-body > .form-horizontal:last-child {
+  margin-bottom: 0;
+}
+
+.admin-form-page .panel-body .btn-block {
+  min-height: 36px;
 }
 
 .admin-form-page .form-horizontal .control-label {
