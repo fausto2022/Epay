@@ -114,14 +114,14 @@
       return;
     }
 
-    navigation = document.querySelector('.admin-has-shell > .container .nav-pills');
-    if (!navigation) {
+    page = document.querySelector('.admin-has-shell > .container .center-block');
+    if (!page) {
       return;
     }
 
-    page = navigation.parentElement;
     page.classList.add('admin-settings-page');
-    navigation.classList.add('admin-settings-nav');
+    navigation = page.querySelector('.nav-pills');
+    if (navigation) navigation.classList.add('admin-settings-nav');
   }
 
   function enhanceLegacyPages(currentPath, isDataPage) {

@@ -86,7 +86,7 @@ if($admin_cdnpublic==1){
       <div class="admin-menu-group <?php echo checkIfActive('set,gonggao,set_wxkf')?>">
         <button type="button" class="admin-menu-toggle" aria-expanded="false"><i class="fa fa-cog"></i><span>系统设置</span><i class="fa fa-angle-down admin-menu-arrow"></i></button>
         <div class="admin-submenu">
-          <a href="./set.php?mod=site">网站信息</a><a href="./set.php?mod=pay">支付配置</a><a href="./set.php?mod=risk">风控配置</a><a href="./set.php?mod=settle">结算规则</a><a href="./set.php?mod=transfer">转账付款</a><a href="./set.php?mod=oauth">快捷登录</a><a href="./set.php?mod=notice">消息提醒</a><a href="./set.php?mod=certificate">实名认证</a><a href="./gonggao.php">网站公告</a><a href="./set.php?mod=template">首页模板</a><a href="./set.php?mod=mail">邮箱与短信</a><a href="./set.php?mod=upimg">Logo 上传</a><a href="./set.php?mod=cron">计划任务</a><a href="./set_wxkf.php">微信客服支付</a>
+          <a href="./set.php?mod=site">网站信息</a><a href="./set.php?mod=pay">支付配置</a><a href="./set.php?mod=risk">风控配置</a><a href="./set.php?mod=settle">结算规则</a><a href="./set.php?mod=transfer">转账付款</a><a href="./set.php?mod=oauth">快捷登录</a><a href="./set.php?mod=notice">消息提醒</a><a href="./set.php?mod=certificate">实名认证</a><a href="./gonggao.php">网站公告</a><a href="./set.php?mod=template">首页模板</a><a href="./set.php?mod=mail">邮箱与短信</a><a href="./set.php?mod=upimg">Logo 上传</a><a href="./set.php?mod=iptype">IP 地址</a><a href="./set.php?mod=proxy">中转代理</a><a href="./set.php?mod=cron">计划任务</a><a href="./set_wxkf.php">微信客服支付</a><a href="./set.php?mod=account">账号与密码</a>
         </div>
       </div>
 

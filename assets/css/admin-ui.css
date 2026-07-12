@@ -15,6 +15,17 @@
   --admin-topbar-height: 64px;
 }
 
+@font-face {
+  font-family: "Glyphicons Halflings";
+  src: url("../vendor/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.eot");
+  src: url("../vendor/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"),
+    url("../vendor/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.woff2") format("woff2"),
+    url("../vendor/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.woff") format("woff"),
+    url("../vendor/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
 * {
   letter-spacing: 0;
 }
@@ -22,6 +33,21 @@
 body.admin-body {
   background: var(--admin-bg);
   color: var(--admin-text);
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+}
+
+.admin-body,
+.admin-body button,
+.admin-body input,
+.admin-body select,
+.admin-body textarea,
+.admin-body table,
+.admin-body h1,
+.admin-body h2,
+.admin-body h3,
+.admin-body h4,
+.admin-body h5,
+.admin-body h6 {
   font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
 }
 
@@ -309,6 +335,14 @@ body.admin-body {
   line-height: 20px;
 }
 
+.admin-body .panel-primary .panel-title,
+.admin-body .panel-success .panel-title,
+.admin-body .panel-warning .panel-title,
+.admin-body .panel-danger .panel-title,
+.admin-body .panel-info .panel-title {
+  color: var(--admin-text) !important;
+}
+
 .admin-body .panel-body {
   padding: 16px;
 }
@@ -361,12 +395,45 @@ body.admin-body {
 .admin-body .btn {
   border-radius: 5px;
   box-shadow: none;
+  background-image: none;
+  text-shadow: none;
+}
+
+.admin-body .btn-default {
+  border-color: var(--admin-border);
+  background: #fff;
+  color: #4f5965;
+}
+
+.admin-body .btn-default:hover,
+.admin-body .btn-default:focus {
+  border-color: #b8c4ca;
+  background: #f7f9fa;
+  color: var(--admin-text);
 }
 
 .admin-body .btn-primary,
 .admin-body .btn-info {
   border-color: var(--admin-primary);
   background: var(--admin-primary);
+  color: #fff;
+}
+
+.admin-body .btn-success {
+  border-color: #4d8b56;
+  background: #4d8b56;
+  color: #fff;
+}
+
+.admin-body .btn-warning {
+  border-color: #b86f13;
+  background: #b86f13;
+  color: #fff;
+}
+
+.admin-body .btn-danger {
+  border-color: var(--admin-danger);
+  background: var(--admin-danger);
   color: #fff;
 }
 
@@ -411,10 +478,10 @@ body.admin-body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   margin: 0 0 14px;
-  padding: 14px;
+  padding: 10px;
   border: 1px solid var(--admin-border);
   border-radius: 6px;
   background: #fff;
@@ -439,6 +506,14 @@ body.admin-body {
   min-width: 108px;
 }
 
+.admin-filterbar .form-control,
+.admin-filterbar .btn {
+  height: 34px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 13px;
+}
+
 .admin-filterbar input[name="value"],
 .admin-filterbar input[name="kw"] {
   min-width: 170px;
@@ -454,7 +529,21 @@ body.admin-body {
 }
 
 .admin-body .fixed-table-toolbar {
-  margin: 0;
+  min-height: 0;
+  margin: 0 0 6px;
+}
+
+.admin-body .fixed-table-toolbar .columns {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.admin-body .fixed-table-toolbar .columns .btn {
+  height: 32px;
+  padding: 5px 9px;
+  border-color: var(--admin-border);
+  background: #fff;
+  color: var(--admin-muted);
 }
 
 .admin-body .fixed-table-container {
@@ -473,6 +562,14 @@ body.admin-body {
 .admin-body .fixed-table-container .table > tbody > tr > td {
   border-right: 0;
   border-left: 0;
+}
+
+.admin-body .fixed-table-container .no-records-found td {
+  min-height: 88px;
+  padding: 30px 12px !important;
+  color: var(--admin-muted);
+  font-size: 13px;
+  text-align: center;
 }
 
 .admin-body .fixed-table-container .bs-checkbox {
@@ -537,48 +634,11 @@ body.admin-body {
 }
 
 .admin-settings-page {
-  position: relative;
-  max-width: 1320px !important;
+  width: 100%;
+  max-width: 1180px !important;
   min-height: calc(100vh - 112px);
-  padding-left: 216px;
-}
-
-.admin-settings-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 194px;
-  margin: 0;
-  padding: 8px;
-  border: 1px solid var(--admin-border);
-  border-radius: 6px;
-  background: #fff;
-}
-
-.admin-settings-nav > li {
-  float: none;
-  margin: 1px 0;
-}
-
-.admin-settings-nav > li > a {
-  padding: 9px 11px;
-  border-radius: 5px;
-  color: #4f5965;
-  font-size: 13px;
-}
-
-.admin-settings-nav > li > a:hover,
-.admin-settings-nav > li > a:focus {
-  background: #f0f5f5;
-  color: var(--admin-primary);
-}
-
-.admin-settings-nav > li.active > a,
-.admin-settings-nav > li.active > a:hover,
-.admin-settings-nav > li.active > a:focus {
-  background: var(--admin-primary);
-  color: #fff;
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .admin-settings-page > .panel {
@@ -852,6 +912,16 @@ body.admin-body {
   max-width: 1320px;
 }
 
+.admin-page-settle .admin-form-page,
+.admin-page-settle_batch .admin-form-page,
+.admin-page-transfer_add .admin-form-page,
+.admin-page-transfer_batch .admin-form-page,
+.admin-page-transfer_export .admin-form-page,
+.admin-page-transfer_red .admin-form-page {
+  width: 100%;
+  max-width: 1480px !important;
+}
+
 .admin-form-page .admin-legacy-panel {
   overflow: visible;
 }
@@ -860,6 +930,19 @@ body.admin-body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+
+.admin-form-page .panel-heading > .panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--admin-text) !important;
+}
+
+.admin-form-page .panel-heading > .panel-title > .pull-right {
+  float: none !important;
+  flex: 0 0 auto;
 }
 
 .admin-form-page .panel-title .btn-xs {
@@ -1426,22 +1509,6 @@ a.dashboard-metric:focus {
     overflow: hidden;
   }
 
-  .admin-settings-page {
-    padding-left: 0;
-  }
-
-  .admin-settings-nav {
-    position: static;
-    display: flex;
-    width: 100%;
-    margin-bottom: 14px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .admin-settings-nav > li {
-    flex: 0 0 auto;
-  }
 }
 
 @media (max-width: 520px) {

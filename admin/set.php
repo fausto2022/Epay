@@ -11,11 +11,7 @@ if($islogin==1){}else exit("<script language='javascript'>window.location.href='
     <div class="col-xs-12 col-sm-10 col-lg-8 center-block" style="float: none;">
 <?php
 $mod=isset($_GET['mod'])?$_GET['mod']:null;
-$mods=['site'=>'网站信息','pay'=>'支付相关','risk'=>'风控检测','settle'=>'结算规则','transfer'=>'转账付款','oauth'=>'快捷登录','notice'=>'消息提醒','certificate'=>'实名认证','template'=>'首页模板','gonggao'=>'公告与排版','mail'=>'邮箱与短信','upimg'=>'LOGO设置','iptype'=>'IP地址','cron'=>'计划任务','proxy'=>'中转代理','account'=>'修改密码'];
 ?>
-<ul class="nav nav-pills">
-	<?php foreach($mods as $key=>$name){echo '<li class="'.($key==$mod?'active':null).'"><a href="set.php?mod='.$key.'">'.$name.'</a></li>';} ?>
-</ul>
 <?php
 $conf=$CACHE->pre_fetch();
 if($mod=='site'){
